@@ -60,12 +60,28 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 ```
 
-BreastCancer-XAI-Evaluation/
+tumor-classifier/
 │
-├── Tumor\_Prediction\_Evaluation.ipynb     # Full pipeline notebook
-├── README.md                             # This file
-├── shap\_summary.png                      # SHAP image (optional)
-├── requirements.txt                      # (optional)
+├── data/                      # Folder for datasets (raw or processed)
+│   └── breast_cancer.csv
+│
+├── notebooks/
+│   └── tumor_classifier_workflow.ipynb   # Full Jupyter workflow (EDA to explainability)
+│
+├── src/                       # Python scripts for modular code
+│   ├── __init__.py
+│   ├── preprocessing.py       # Functions for cleaning, SMOTE, scaling
+│   ├── modeling.py            # Train/test split, model training, metrics
+│   └── explainability.py      # SHAP or LIME interpretability
+│
+├── outputs/
+│   ├── models/                # Saved trained models (e.g., .pkl or .joblib)
+│   ├── plots/                 # Visualizations, ROC curves, SHAP plots
+│   └── reports/               # Clinical-style report / results summary
+│
+├── requirements.txt           # All needed Python packages
+├── README.md                  # Project summary, setup, usage
+└── main.py                    # Optional: script to run everything end-to-end
 
 ```
 
