@@ -59,7 +59,6 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 ## File Structure
 
 ```
-
 BreastCancer-XAI-Evaluation/
 │
 ├── data/                      # Folder for datasets (raw or processed)
@@ -83,7 +82,6 @@ BreastCancer-XAI-Evaluation/
 ├── requirements.txt           # All needed Python packages
 ├── README.md                  # Project summary, setup, usage
 └── main.py                    # Optional: script to run everything end-to-end
-
 ```
 
 ---
