@@ -1,3 +1,12 @@
-/docs/statement/
+/docs/
 /outputs/
 /dataset/
+/__pycache__/
+/.idea/
+/.ipynb_checkpoints/
+
+.DS_Store
+*.pyc
+*.pkl
+*.joblib
+.env
