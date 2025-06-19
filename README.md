@@ -65,13 +65,15 @@ BreastCancer-XAI-Evaluation/
 │   └── breast_cancer.csv
 │
 ├── notebooks/
-│   └── tumor_classifier_workflow.ipynb   # Full Jupyter workflow (EDA to explainability)
+│   ├── __01__preprocessing.ipynb         # Functions for cleaning, SMOTE, scaling
+│   ├── __02__modeling.ipynb              # Train/test split, model training, metrics
+│   └── __03__explainability.ipynb   # Full Jupyter workflow (EDA to explainability)
 │
 ├── src/                       # Python scripts for modular code
 │   ├── __init__.py
-│   ├── preprocessing.py       # Functions for cleaning, SMOTE, scaling
-│   ├── modeling.py            # Train/test split, model training, metrics
-│   └── explainability.py      # SHAP or LIME interpretability
+│   ├── __01__preprocessing.py       # Functions for cleaning, SMOTE, scaling
+│   ├── __02__modeling.py            # Train/test split, model training, metrics
+│   └── __03__explainability.py      # SHAP or LIME interpretability
 │
 ├── outputs/
 │   ├── models/                # Saved trained models (e.g., .pkl or .joblib)
