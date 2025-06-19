@@ -61,28 +61,28 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 ```
 BreastCancer-XAI-Evaluation/
 │
-├── datasets/                  # Folder for datasets (raw or processed)
+├── datasets/                             # Folder for datasets (raw or processed)
 │   └── breast_cancer.csv
 │
 ├── notebooks/
 │   ├── __01__preprocessing.ipynb         # Functions for cleaning, SMOTE, scaling
 │   ├── __02__modeling.ipynb              # Train/test split, model training, metrics
-│   └── __03__explainability.ipynb   # Full Jupyter workflow (EDA to explainability)
+│   └── __03__explainability.ipynb        # Full Jupyter workflow (EDA to explainability)
 │
-├── src/                       # Python scripts for modular code
+├── src/                                  # Python scripts for modular code
 │   ├── __init__.py
-│   ├── __01__preprocessing.py       # Functions for cleaning, SMOTE, scaling
-│   ├── __02__modeling.py            # Train/test split, model training, metrics
-│   └── __03__explainability.py      # SHAP or LIME interpretability
+│   ├── __01__preprocessing.py            # Functions for cleaning, SMOTE, scaling
+│   ├── __02__modeling.py                 # Train/test split, model training, metrics
+│   └── __03__explainability.py           # SHAP or LIME interpretability
 │
 ├── outputs/
-│   ├── models/                # Saved trained models (e.g., .pkl or .joblib)
-│   └── plots/                 # Visualizations, ROC curves, SHAP plots
+│   ├── models/                           # Saved trained models (e.g., .pkl or .joblib)
+│   └── plots/                            # Visualizations, ROC curves, SHAP plots
 │
-├── .gitignore                 # All ignored files
-├── requirements.txt           # All needed Python packages
-├── README.md                  # Project summary, setup, usage
-└── main.py                    # Optional: script to run everything end-to-end
+├── .gitignore                            # All ignored files
+├── requirements.txt                      # All needed Python packages
+├── README.md                             # Project summary, setup, usage
+└── main.py                               # Optional: script to run everything end-to-end
 ```
 
 ---
