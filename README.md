@@ -33,16 +33,16 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 ## Tools & Technologies
 
-- **Language**: Python  
-- **Libraries**: scikit-learn, pandas, matplotlib, seaborn, imbalanced-learn, SHAP  
+- **Language**: Python
+- **Libraries**: scikit-learn, pandas, matplotlib, seaborn, imbalanced-learn, SHAP
 - **IDE**: Jupyter Notebook
 
 ---
 
 ## Evaluation Summary _(To be completed after training)_
 
-| Model              | Accuracy | Precision | Recall | F1 Score | ROC AUC |
-|-------------------|----------|-----------|--------|----------|---------|
+| Model               | Accuracy | Precision | Recall | F1 Score | ROC AUC |
+|---------------------|----------|-----------|--------|----------|---------|
 | Logistic Regression |          |           |        |          |         |
 | Random Forest       |          |           |        |          |         |
 | SVM                 |          |           |        |          |         |
@@ -60,7 +60,7 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 ```
 
-tumor-classifier/
+BreastCancer-XAI-Evaluation/
 │
 ├── data/                      # Folder for datasets (raw or processed)
 │   └── breast_cancer.csv
