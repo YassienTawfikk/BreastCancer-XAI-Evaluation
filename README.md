@@ -75,8 +75,7 @@ BreastCancer-XAI-Evaluation/
 │
 ├── outputs/
 │   ├── models/                # Saved trained models (e.g., .pkl or .joblib)
-│   ├── plots/                 # Visualizations, ROC curves, SHAP plots
-│   └── reports/               # Clinical-style report / results summary
+│   └── plots/                 # Visualizations, ROC curves, SHAP plots
 │
 ├── .gitignore                 # All ignored files
 ├── requirements.txt           # All needed Python packages
