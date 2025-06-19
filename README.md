@@ -61,7 +61,7 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 ```
 BreastCancer-XAI-Evaluation/
 │
-├── data/                      # Folder for datasets (raw or processed)
+├── datasets/                  # Folder for datasets (raw or processed)
 │   └── breast_cancer.csv
 │
 ├── notebooks/
