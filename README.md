@@ -79,7 +79,7 @@ tumor-classifier/
 │   ├── plots/                 # Visualizations, ROC curves, SHAP plots
 │   └── reports/               # Clinical-style report / results summary
 │
-├── .gitignore                 # all ignored files
+├── .gitignore                 # All ignored files
 ├── requirements.txt           # All needed Python packages
 ├── README.md                  # Project summary, setup, usage
 └── main.py                    # Optional: script to run everything end-to-end
