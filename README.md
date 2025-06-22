@@ -76,8 +76,14 @@ BreastCancer-XAI-Evaluation/
 │   └── __03__explainability.py           # SHAP or LIME interpretability
 │
 ├── outputs/
-│   ├── models/                           # Saved trained models (e.g., .pkl or .joblib)
-│   └── plots/                            # Visualizations, ROC curves, SHAP plots
+│   ├── Logistic Regression/
+│   │   ├── model/                        # Saved trained models (e.g., .pkl or .joblib)  
+│   │   ├── plots/                        # Visualizations, ROC curves, SHAP plots
+│   │   └── report/                       # Report AUC, ROC, Accuracy
+│   ├── SVM/
+│   │   └── .../
+│   └── Random Forest/
+│       └── .../
 │
 ├── .gitignore                            # All ignored files
 ├── requirements.txt                      # All needed Python packages
