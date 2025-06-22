@@ -39,15 +39,40 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 ---
 
-## Evaluation Summary _(To be completed after training)_
-
-| Model               | Accuracy | Precision | Recall | F1 Score | ROC AUC |
-|---------------------|----------|-----------|--------|----------|---------|
-| Logistic Regression |          |           |        |          |         |
-| Random Forest       |          |           |        |          |         |
-| SVM                 |          |           |        |          |         |
+Sure! Here’s a complete, well-structured replacement for your `## Evaluation Summary` section in the `README.md` — explaining all reported metrics (Accuracy, Precision, Recall, F1, AUC) and why they’re high:
 
 ---
+
+## Evaluation Summary
+
+| Model               | Accuracy | Precision | Recall | F1 Score | ROC AUC |
+| ------------------- | -------- | --------- | ------ | -------- | ------- |
+| SVM                 | 0.96     | 0.97      | 0.96   | 0.97     | 0.99    |
+| Random Forest       | 0.95     | 0.95      | 0.95   | 0.95     | 0.99    |
+| Logistic Regression | 0.96     | 0.96      | 0.96   | 0.96     | 0.99    |
+
+### Metric Interpretation & Why They're High
+
+The consistently high scores across all models can be attributed to the characteristics of the dataset and the preprocessing pipeline:
+
+* **Accuracy (95–96%)**: This reflects the overall proportion of correctly classified tumors. The dataset used is well-balanced (after SMOTE), and the features offer strong separation between benign and malignant classes — leading to high correct classification rates.
+
+* **Precision (95–97%)**: High precision means that when the model predicts a tumor as malignant, it's usually correct. This is especially strong in SVM and Logistic Regression, which learned well-defined boundaries thanks to clean feature distributions and scaling.
+
+* **Recall (95–96%)**: Also known as sensitivity, this indicates how many actual malignant tumors were correctly identified. The model performance here suggests strong coverage, with few false negatives — crucial in a cancer detection task.
+
+* **F1 Score (95–97%)**: The harmonic mean of precision and recall. These high values show that the models are balanced — minimizing both false positives and false negatives.
+
+* **ROC AUC (0.99)**: Area Under the ROC Curve quantifies how well the model ranks malignant cases higher than benign ones. The near-perfect AUC values reflect that the dataset has **clear and separable patterns**, and that the classifiers were effective in capturing those without overfitting.
+
+---
+
+### Note on Dataset Limitations
+
+The dataset used (`sklearn.datasets.load_breast_cancer`) is a **clean, pre-engineered academic dataset**. It does not include real-world noise, imaging artifacts, or mislabeled data. While it is excellent for benchmarking algorithms, such high scores may not directly translate to real clinical environments without further validation on more complex datasets.
+
+---
+
 
 ## Explainability Output (SHAP)
 
