@@ -1,9 +1,20 @@
-pandas==2.2.2
+# Core Libraries
+pandas==2.3.0
 numpy==1.26.4
 matplotlib==3.8.4
 seaborn==0.13.2
 scikit-learn==1.6.1
 imbalanced-learn==0.13.0
 shap==0.45.1
-jupyter==1.0.0
 joblib==1.4.2
+
+# Jupyter Environment
+jupyter==1.0.0
+notebook==7.4.3
+ipykernel==6.29.5
+ipywidgets==8.1.7
+
+# Additional for visuals / SHAP compatibility
+tqdm==4.67.1
+packaging==25.0
+pyparsing==3.2.3
