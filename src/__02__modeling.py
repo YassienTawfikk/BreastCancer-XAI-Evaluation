@@ -1,5 +1,3 @@
-# src/__02__modeling.py
-
 from pathlib import Path
 import pandas as pd
 import joblib
@@ -15,6 +13,7 @@ from sklearn.metrics import (
     roc_curve,
     precision_recall_curve
 )
+
 
 def run_modeling():
     print("Loading processed data...")
@@ -91,4 +90,3 @@ def run_modeling():
         plt.close()
 
         print(f"{name} results saved in outputs/{name}/")
-
