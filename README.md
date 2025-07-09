@@ -75,9 +75,36 @@ The dataset used (`sklearn.datasets.load_breast_cancer`) is a **clean, pre-engin
 
 
 ## Explainability Output (SHAP)
+This project uses SHAP (SHapley Additive exPlanations) to interpret model predictions both globally and locally, improving trust and transparency in medical AI.
 
-> [Insert visual here after running SHAP summary plot]  
-> Example: ![SHAP Summary Plot](./shap_summary.png)
+---
+
+### Global Explanation — SHAP Summary Plot
+
+This plot shows the overall impact of each feature on the model’s predictions across all test samples:
+	•	X-axis: SHAP value = impact on prediction (left = benign, right = malignant)
+	•	Y-axis: Features ranked by importance
+	•	Color: Red = high feature value, Blue = low
+
+  Path: outputs/Logistic Regression/plots/shap_summary.png
+
+![SHAP Summary Plot](https://github.com/user-attachments/assets/d0f49539-a55c-412a-84f5-2dc353c37f31)
+
+
+---
+
+### Local Explanation — SHAP Waterfall Plot for Patient #24
+
+This waterfall plot explains the prediction for an individual patient in the test set:
+	•	Baseline (E[f(x)]): Model’s expected log-odds prediction before seeing any features
+	•	Contributions: Each feature adds or subtracts from this baseline
+	•	Final (f(x)): The model’s final log-odds for this patient (converted to a probability)
+
+Red bars push the prediction toward malignant, blue bars push toward benign.
+
+  Path: outputs/Logistic Regression/plots/shap_local_24.png
+
+![SHAP Waterfall Plot](https://github.com/user-attachments/assets/39435376-124c-478e-94e9-f842198bfa15)
 
 ---
 
