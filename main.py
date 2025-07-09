@@ -1,6 +1,7 @@
 import src
 from src import __01__preprocessing as preprocess
 from src import __02__modeling as modeling
+from src import __03__explainability as explainability
 
 
 def main():
@@ -9,6 +10,9 @@ def main():
 
     print("Running modeling step...")
     modeling.run_modeling()
+
+    print("Running explainability step...")
+    explainability.run_explainability()
 
     print("All steps completed successfully.")
 
