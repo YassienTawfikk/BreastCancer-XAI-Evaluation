@@ -2,6 +2,10 @@
 
 > Exploring explainable AI for breast cancer classification through SHAP insights, precision-recall metrics, and imbalanced data handling.
 
+<p align='center'>
+<img width="1024" height="1024" alt="20250811_0611_Breast Cancer AI_simple_compose_01k2bhq7s5fbyajk90a3vzb937" src="https://github.com/user-attachments/assets/11d71549-8165-4a51-a4cb-5ff939f30c27" />
+</p>
+
 ---
 
 ## Project Overview
