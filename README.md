@@ -43,10 +43,6 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 ---
 
-Sure! Here’s a complete, well-structured replacement for your `## Evaluation Summary` section in the `README.md` — explaining all reported metrics (Accuracy, Precision, Recall, F1, AUC) and why they’re high:
-
----
-
 ## Evaluation Summary
 
 | Model               | Accuracy | Precision | Recall | F1 Score | ROC AUC |
