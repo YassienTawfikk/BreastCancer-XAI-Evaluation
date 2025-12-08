@@ -17,8 +17,15 @@ from sklearn.metrics import (
 
 def run_modeling():
     print("Loading processed data...")
-    train_df = pd.read_csv('datasets/processed_train.csv')
-    test_df = pd.read_csv('datasets/processed_test.csv')
+    # Check if files exist
+    train_path = Path('datasets/processed_train.csv')
+    test_path = Path('datasets/processed_test.csv')
+    
+    if not train_path.exists() or not test_path.exists():
+        raise FileNotFoundError("Processed datasets not found. Please run preprocessing first.")
+
+    train_df = pd.read_csv(train_path)
+    test_df = pd.read_csv(test_path)
 
     x_train = train_df.drop('target', axis=1)
     y_train = train_df['target']
@@ -27,6 +34,7 @@ def run_modeling():
 
     # Define output base path
     output_base = Path('outputs')
+    output_base.mkdir(parents=True, exist_ok=True) # Ensure outputs dir exists
 
     # Define models
     models_dict = {
@@ -43,6 +51,10 @@ def run_modeling():
 
         # Paths
         model_dir = output_base / name
+        (model_dir / 'model').mkdir(parents=True, exist_ok=True)
+        (model_dir / 'reports').mkdir(parents=True, exist_ok=True)
+        (model_dir / 'plots').mkdir(parents=True, exist_ok=True)
+        
         model_path = model_dir / 'model' / f"{name.lower().replace(' ', '_')}_model.pkl"
         report_path = model_dir / 'reports' / 'classification_report.txt'
         cm_path = model_dir / 'plots' / 'confusion_matrix.png'

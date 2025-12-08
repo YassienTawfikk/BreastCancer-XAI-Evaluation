@@ -11,8 +11,14 @@ def run_explainability(index: int = 24) -> None:
     # ===============================
     print("Loading processed data and models for explainability...")
 
-    train_df = pd.read_csv('datasets/processed_train.csv')
-    test_df = pd.read_csv('datasets/processed_test.csv')
+    train_path = Path('datasets/processed_train.csv')
+    test_path = Path('datasets/processed_test.csv')
+
+    if not train_path.exists() or not test_path.exists():
+        raise FileNotFoundError("Processed datasets not found.")
+
+    train_df = pd.read_csv(train_path)
+    test_df = pd.read_csv(test_path)
 
     X_train = train_df.drop('target', axis=1)
     X_test = test_df.drop('target', axis=1)
@@ -21,6 +27,9 @@ def run_explainability(index: int = 24) -> None:
     # Load Trained Models
     # ===============================
     base = Path('outputs')
+    if not base.exists():
+        raise FileNotFoundError("Outputs directory not found. Please run modeling first.")
+
     models = {
         'Logistic Regression': joblib.load(base / 'Logistic Regression' / 'model' / 'logistic_regression_model.pkl'),
         'Random Forest': joblib.load(base / 'Random Forest' / 'model' / 'random_forest_model.pkl'),
@@ -85,7 +94,11 @@ def run_explainability(index: int = 24) -> None:
         local_path = plot_dir / f'shap_local_{index}.png'
 
         if isinstance(sv, shap._explanation.Explanation):
-            shap.plots.waterfall(sv[min(index, len(sv) - 1)], show=False)
+            try:
+                shap.plots.waterfall(sv[min(index, len(sv) - 1)], show=False)
+            except Exception as e:
+                print(f"Error generating waterfall plot: {e}")
+                continue # Skip invalid plot
         else:
             exp = shap.Explanation(
                 values=sv[min(index, sv.shape[0] - 1)],
@@ -93,7 +106,11 @@ def run_explainability(index: int = 24) -> None:
                 data=X_test.iloc[min(index, len(X_test) - 1)].values,
                 feature_names=X_test.columns,
             )
-            shap.plots.waterfall(exp, show=False)
+            try:
+                shap.plots.waterfall(exp, show=False)
+            except Exception as e:
+                print(f"Error generating waterfall plot: {e}")
+                continue
 
         plt.savefig(local_path, bbox_inches='tight')
         plt.close()

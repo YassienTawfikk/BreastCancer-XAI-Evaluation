@@ -39,7 +39,36 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 - **Language**: Python
 - **Libraries**: scikit-learn, pandas, matplotlib, seaborn, imbalanced-learn, SHAP
-- **IDE**: Jupyter Notebook
+- **CLI**: argparse
+
+---
+
+## Usage
+
+### 1. Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Running the Pipeline
+
+You can run the full pipeline (preprocessing, modeling, explainability) using the provided shell script:
+
+```bash
+./run/train.sh
+```
+
+Or manually via Python:
+
+```bash
+python scripts/training.py --steps all
+```
+
+**Options:**
+
+- Run specific steps: `python scripts/training.py --steps preprocessing modeling`
+- Explain a specific sample: `python scripts/training.py --steps explainability --explain-index 42`
 
 ---
 
@@ -55,15 +84,15 @@ Source: `scikit-learn.datasets.load_breast_cancer()`
 
 The consistently high scores across all models can be attributed to the characteristics of the dataset and the preprocessing pipeline:
 
-* **Accuracy (95–96%)**: This reflects the overall proportion of correctly classified tumors. The dataset used is well-balanced (after SMOTE), and the features offer strong separation between benign and malignant classes — leading to high correct classification rates.
+- **Accuracy (95–96%)**: This reflects the overall proportion of correctly classified tumors. The dataset used is well-balanced (after SMOTE), and the features offer strong separation between benign and malignant classes — leading to high correct classification rates.
 
-* **Precision (95–97%)**: High precision means that when the model predicts a tumor as malignant, it's usually correct. This is especially strong in SVM and Logistic Regression, which learned well-defined boundaries thanks to clean feature distributions and scaling.
+- **Precision (95–97%)**: High precision means that when the model predicts a tumor as malignant, it's usually correct. This is especially strong in SVM and Logistic Regression, which learned well-defined boundaries thanks to clean feature distributions and scaling.
 
-* **Recall (95–96%)**: Also known as sensitivity, this indicates how many actual malignant tumors were correctly identified. The model performance here suggests strong coverage, with few false negatives — crucial in a cancer detection task.
+- **Recall (95–96%)**: Also known as sensitivity, this indicates how many actual malignant tumors were correctly identified. The model performance here suggests strong coverage, with few false negatives — crucial in a cancer detection task.
 
-* **F1 Score (95–97%)**: The harmonic mean of precision and recall. These high values show that the models are balanced — minimizing both false positives and false negatives.
+- **F1 Score (95–97%)**: The harmonic mean of precision and recall. These high values show that the models are balanced — minimizing both false positives and false negatives.
 
-* **ROC AUC (0.99)**: Area Under the ROC Curve quantifies how well the model ranks malignant cases higher than benign ones. The near-perfect AUC values reflect that the dataset has **clear and separable patterns**, and that the classifiers were effective in capturing those without overfitting.
+- **ROC AUC (0.99)**: Area Under the ROC Curve quantifies how well the model ranks malignant cases higher than benign ones. The near-perfect AUC values reflect that the dataset has **clear and separable patterns**, and that the classifiers were effective in capturing those without overfitting.
 
 ---
 
@@ -73,8 +102,8 @@ The dataset used (`sklearn.datasets.load_breast_cancer`) is a **clean, pre-engin
 
 ---
 
-
 ## Explainability Output (SHAP)
+
 This project uses SHAP (SHapley Additive exPlanations) to interpret model predictions both globally and locally, improving trust and transparency in medical AI.
 
 ---
@@ -82,23 +111,22 @@ This project uses SHAP (SHapley Additive exPlanations) to interpret model predic
 ### Global Explanation — SHAP Summary Plot
 
 This plot shows the overall impact of each feature on the model’s predictions across all test samples:
-	•	X-axis: SHAP value = impact on prediction (left = benign, right = malignant)
-	•	Y-axis: Features ranked by importance
-	•	Color: Red = high feature value, Blue = low
+ • X-axis: SHAP value = impact on prediction (left = benign, right = malignant)
+ • Y-axis: Features ranked by importance
+ • Color: Red = high feature value, Blue = low
 
   Path: outputs/Logistic Regression/plots/shap_summary.png
 
 ![SHAP Summary Plot](https://github.com/user-attachments/assets/d0f49539-a55c-412a-84f5-2dc353c37f31)
-
 
 ---
 
 ### Local Explanation — SHAP Waterfall Plot for Patient #24
 
 This waterfall plot explains the prediction for an individual patient in the test set:
-	•	Baseline (E[f(x)]): Model’s expected log-odds prediction before seeing any features
-	•	Contributions: Each feature adds or subtracts from this baseline
-	•	Final (f(x)): The model’s final log-odds for this patient (converted to a probability)
+ • Baseline (E[f(x)]): Model’s expected log-odds prediction before seeing any features
+ • Contributions: Each feature adds or subtracts from this baseline
+ • Final (f(x)): The model’s final log-odds for this patient (converted to a probability)
 
 Red bars push the prediction toward malignant, blue bars push toward benign.
 
@@ -114,33 +142,33 @@ Red bars push the prediction toward malignant, blue bars push toward benign.
 BreastCancer-XAI-Evaluation/
 │
 ├── datasets/                             # Folder for datasets (raw or processed)
-│   └── breast_cancer.csv
+│   ├── processed_train.csv
+│   └── processed_test.csv
 │
-├── notebooks/
-│   ├── 01_preprocessing.ipynb            # Functions for cleaning, SMOTE, scaling
-│   ├── 02_modeling.ipynb                 # Train/test split, model training, metrics
-│   └── 03_explainability.ipynb           # Full Jupyter workflow (EDA to explainability)
-│
-├── src/                                  # Python scripts for modular code
+├── breast_cancer/                        # Core package
 │   ├── __init__.py
-│   ├── __01__preprocessing.py            # Functions for cleaning, SMOTE, scaling
-│   ├── __02__modeling.py                 # Train/test split, model training, metrics
-│   └── __03__explainability.py           # SHAP or LIME interpretability
+│   ├── preprocessing.py                  # Functions for cleaning, SMOTE, scaling
+│   ├── modeling.py                       # Train/test split, model training, metrics
+│   └── explainability.py                 # SHAP interpretability
 │
-├── outputs/
+├── scripts/
+│   └── training.py                       # CLI entry point for the pipeline
+│
+├── run/
+│   └── train.sh                          # Bash script to execute the full pipeline
+│
+├── outputs/                              # Generated artifacts
 │   ├── Logistic Regression/
-│   │   ├── model/                        # Saved trained models (e.g., .pkl or .joblib)  
+│   │   ├── model/                        # Saved trained models (.pkl)  
 │   │   ├── plots/                        # Visualizations, ROC curves, SHAP plots
-│   │   └── report/                       # Report AUC, ROC, Accuracy
+│   │   └── reports/                      # Classification reports
 │   ├── SVM/
-│   │   └── .../
 │   └── Random Forest/
-│       └── .../
 │
-├── .gitignore                            # All ignored files
-├── requirements.txt                      # All needed Python packages
-├── README.md                             # Project summary, setup, usage
-└── main.py                               # Optional: script to run everything end-to-end
+├── .gitignore                            
+├── requirements.txt                      
+└── README.md                             
+
 ```
 
 ---
