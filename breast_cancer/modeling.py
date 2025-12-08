@@ -13,92 +13,111 @@ from sklearn.metrics import (
     roc_curve,
     precision_recall_curve
 )
+from dataclasses import dataclass
 
+@dataclass
+class ModelConfig:
+    n_estimators: int = 100
+    max_iter: int = 1000
+    svm_kernel: str = 'rbf'
+    random_state: int = 42
 
-def run_modeling():
-    print("Loading processed data...")
-    # Check if files exist
-    train_path = Path('datasets/processed_train.csv')
-    test_path = Path('datasets/processed_test.csv')
-    
-    if not train_path.exists() or not test_path.exists():
-        raise FileNotFoundError("Processed datasets not found. Please run preprocessing first.")
+class BreastCancerModel:
+    def __init__(self, config: ModelConfig = ModelConfig()):
+        self.config = config
+        self.models = {
+            'Logistic Regression': LogisticRegression(
+                random_state=self.config.random_state, 
+                max_iter=self.config.max_iter
+            ),
+            'Random Forest': RandomForestClassifier(
+                n_estimators=self.config.n_estimators, 
+                random_state=self.config.random_state
+            ),
+            'SVM': SVC(
+                kernel=self.config.svm_kernel, 
+                probability=True, 
+                random_state=self.config.random_state
+            )
+        }
 
-    train_df = pd.read_csv(train_path)
-    test_df = pd.read_csv(test_path)
-
-    x_train = train_df.drop('target', axis=1)
-    y_train = train_df['target']
-    x_test = test_df.drop('target', axis=1)
-    y_test = test_df['target']
-
-    # Define output base path
-    output_base = Path('outputs')
-    output_base.mkdir(parents=True, exist_ok=True) # Ensure outputs dir exists
-
-    # Define models
-    models_dict = {
-        'Logistic Regression': LogisticRegression(random_state=42, max_iter=1000),
-        'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42),
-        'SVM': SVC(kernel='rbf', probability=True, random_state=42)
-    }
-
-    for name, model in models_dict.items():
-        print(f"\nTraining {name}...")
-        model.fit(x_train, y_train)
-        y_pred = model.predict(x_test)
-        y_prob = model.predict_proba(x_test)[:, 1]
-
-        # Paths
-        model_dir = output_base / name
-        (model_dir / 'model').mkdir(parents=True, exist_ok=True)
-        (model_dir / 'reports').mkdir(parents=True, exist_ok=True)
-        (model_dir / 'plots').mkdir(parents=True, exist_ok=True)
+    def run(self):
+        print("Loading processed data...")
+        # Check if files exist
+        train_path = Path('datasets/processed_train.csv')
+        test_path = Path('datasets/processed_test.csv')
         
-        model_path = model_dir / 'model' / f"{name.lower().replace(' ', '_')}_model.pkl"
-        report_path = model_dir / 'reports' / 'classification_report.txt'
-        cm_path = model_dir / 'plots' / 'confusion_matrix.png'
-        roc_path = model_dir / 'plots' / 'roc_curve.png'
-        prc_path = model_dir / 'plots' / 'precision_recall_curve.png'
+        if not train_path.exists() or not test_path.exists():
+            raise FileNotFoundError("Processed datasets not found. Please run preprocessing first.")
 
-        # Save model
-        joblib.dump(model, model_path)
+        train_df = pd.read_csv(train_path)
+        test_df = pd.read_csv(test_path)
 
-        # Save classification report
-        report = classification_report(y_test, y_pred, target_names=['Benign', 'Malignant'])
-        with open(report_path, 'w') as f:
-            f.write(report)
+        x_train = train_df.drop('target', axis=1)
+        y_train = train_df['target']
+        x_test = test_df.drop('target', axis=1)
+        y_test = test_df['target']
 
-        # Confusion Matrix
-        cm = confusion_matrix(y_test, y_pred)
-        plt.figure()
-        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-        plt.xlabel("Predicted Label")
-        plt.ylabel("Actual Label")
-        plt.title(f"Confusion Matrix - {name}")
-        plt.savefig(cm_path, bbox_inches='tight')
-        plt.close()
+        # Define output base path
+        output_base = Path('outputs')
+        output_base.mkdir(parents=True, exist_ok=True) # Ensure outputs dir exists
 
-        # ROC Curve
-        fpr, tpr, _ = roc_curve(y_test, y_prob)
-        plt.figure()
-        plt.plot(fpr, tpr, label=f"AUC = {roc_auc_score(y_test, y_prob):.2f}")
-        plt.plot([0, 1], [0, 1], 'k--')
-        plt.xlabel("False Positive Rate")
-        plt.ylabel("True Positive Rate")
-        plt.title(f"ROC Curve - {name}")
-        plt.legend()
-        plt.savefig(roc_path, bbox_inches='tight')
-        plt.close()
+        for name, model in self.models.items():
+            print(f"\nTraining {name}...")
+            model.fit(x_train, y_train)
+            y_pred = model.predict(x_test)
+            y_prob = model.predict_proba(x_test)[:, 1]
 
-        # Precision-Recall Curve
-        prec, rec, _ = precision_recall_curve(y_test, y_prob)
-        plt.figure()
-        plt.plot(rec, prec)
-        plt.xlabel("Recall")
-        plt.ylabel("Precision")
-        plt.title(f"Precision-Recall Curve - {name}")
-        plt.savefig(prc_path, bbox_inches='tight')
-        plt.close()
+            # Paths
+            model_dir = output_base / name
+            (model_dir / 'model').mkdir(parents=True, exist_ok=True)
+            (model_dir / 'reports').mkdir(parents=True, exist_ok=True)
+            (model_dir / 'plots').mkdir(parents=True, exist_ok=True)
+            
+            model_path = model_dir / 'model' / f"{name.lower().replace(' ', '_')}_model.pkl"
+            report_path = model_dir / 'reports' / 'classification_report.txt'
+            cm_path = model_dir / 'plots' / 'confusion_matrix.png'
+            roc_path = model_dir / 'plots' / 'roc_curve.png'
+            prc_path = model_dir / 'plots' / 'precision_recall_curve.png'
 
-        print(f"{name} results saved in outputs/{name}/")
+            # Save model
+            joblib.dump(model, model_path)
+
+            # Save classification report
+            report = classification_report(y_test, y_pred, target_names=['Benign', 'Malignant'])
+            with open(report_path, 'w') as f:
+                f.write(report)
+
+            # Confusion Matrix
+            cm = confusion_matrix(y_test, y_pred)
+            plt.figure()
+            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+            plt.xlabel("Predicted Label")
+            plt.ylabel("Actual Label")
+            plt.title(f"Confusion Matrix - {name}")
+            plt.savefig(cm_path, bbox_inches='tight')
+            plt.close()
+
+            # ROC Curve
+            fpr, tpr, _ = roc_curve(y_test, y_prob)
+            plt.figure()
+            plt.plot(fpr, tpr, label=f"AUC = {roc_auc_score(y_test, y_prob):.2f}")
+            plt.plot([0, 1], [0, 1], 'k--')
+            plt.xlabel("False Positive Rate")
+            plt.ylabel("True Positive Rate")
+            plt.title(f"ROC Curve - {name}")
+            plt.legend()
+            plt.savefig(roc_path, bbox_inches='tight')
+            plt.close()
+
+            # Precision-Recall Curve
+            prec, rec, _ = precision_recall_curve(y_test, y_prob)
+            plt.figure()
+            plt.plot(rec, prec)
+            plt.xlabel("Recall")
+            plt.ylabel("Precision")
+            plt.title(f"Precision-Recall Curve - {name}")
+            plt.savefig(prc_path, bbox_inches='tight')
+            plt.close()
+
+            print(f"{name} results saved in outputs/{name}/")

@@ -11,6 +11,9 @@ joblib==1.4.2
 
 
 # Additional for visuals / SHAP compatibility
+
+# Additional for visuals / SHAP compatibility
 tqdm==4.67.1
 packaging==25.0
 pyparsing==3.2.3
+jsonargparse[signatures]>=4.27.0

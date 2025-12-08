@@ -59,16 +59,17 @@ You can run the full pipeline (preprocessing, modeling, explainability) using th
 ./run/train.sh
 ```
 
-Or manually via Python:
+Or manually via the new CLI:
 
 ```bash
-python scripts/training.py --steps all
+python scripts/training.py fit \
+    --model.n_estimators=100 \
+    --model.max_iter=1000 \
+    --model.svm_kernel=rbf
 ```
 
-**Options:**
-
-- Run specific steps: `python scripts/training.py --steps preprocessing modeling`
-- Explain a specific sample: `python scripts/training.py --steps explainability --explain-index 42`
+**CLI Help:**
+Run `python scripts/training.py --help` to see all available options.
 
 ---
 
@@ -138,7 +139,7 @@ Red bars push the prediction toward malignant, blue bars push toward benign.
 
 ## File Structure
 
-```
+```text
 BreastCancer-XAI-Evaluation/
 │
 ├── datasets/                             # Folder for datasets (raw or processed)
@@ -152,10 +153,10 @@ BreastCancer-XAI-Evaluation/
 │   └── explainability.py                 # SHAP interpretability
 │
 ├── scripts/
-│   └── training.py                       # CLI entry point for the pipeline
+│   └── training.py                       # CLI entry point using jsonargparse
 │
 ├── run/
-│   └── train.sh                          # Bash script to execute the full pipeline
+│   └── train.sh                          # Bash script to execute the full pipeline via CLI
 │
 ├── outputs/                              # Generated artifacts
 │   ├── Logistic Regression/
@@ -168,7 +169,6 @@ BreastCancer-XAI-Evaluation/
 ├── .gitignore                            
 ├── requirements.txt                      
 └── README.md                             
-
 ```
 
 ---
